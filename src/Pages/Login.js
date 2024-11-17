@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../Services/api';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Indicador de carga
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Activa el estado de carga
 
-    // Simular inicio de sesión
-    if (email === 'usuario@ejemplo.com' && password === '123456') {
-      // Simulamos un token y roles de prueba
-      localStorage.setItem('token', 'simulated-token');
-      localStorage.setItem('roles', JSON.stringify(['ROLE_USER', 'ROLE_COACH'])); // Cambia los roles según lo que quieras probar
-
-      // Redirige al Dashboard
+    try {
+      const response = await api.post('/login', { email, password });
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('roles', JSON.stringify(response.data.roles));
       navigate('/dashboard');
-    } else {
-      setError('Credenciales incorrectas. Usa "usuario@ejemplo.com" y "123456".');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error al iniciar sesión.');
+    } finally {
+      setLoading(false); // Desactiva el estado de carga
     }
   };
 
@@ -27,22 +29,28 @@ function Login() {
     <div>
       <h2>Iniciar Sesión</h2>
       <form onSubmit={handleSubmit}>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label>Contraseña:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Contraseña:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">Entrar</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Cargando...' : 'Entrar'}
+        </button>
       </form>
     </div>
   );

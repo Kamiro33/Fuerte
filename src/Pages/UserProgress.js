@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { toast } from 'react-toastify'; // Importar react-toastify
 import api from '../Services/api'; // Usa tu servicio Axios para conectarte al backend
 
 function UserProgress() {
   const [progressData, setProgressData] = useState([]);
 
-  // Simular datos temporales si el backend aún no está disponible
   useEffect(() => {
     const fetchProgressData = async () => {
       try {
-        // Si tienes un backend, usa este endpoint para obtener datos reales
+        // Llamada al backend para obtener datos reales
         const response = await api.get('/Progress');
         setProgressData(response.data);
+        toast.success('Datos de progreso cargados exitosamente.'); // Notificación de éxito
       } catch (error) {
         console.error('Error al obtener los datos de progreso:', error);
+        toast.error('Error al cargar los datos de progreso. Mostrando datos simulados.'); // Notificación de error
 
         // Datos simulados
         setProgressData([

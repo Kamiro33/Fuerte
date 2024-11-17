@@ -1,10 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ExerciseLibrary from '../Exercises/ExerciseLibrary';
-import { WorkoutContext } from '../../context/WorkoutContext';  // Usamos el contexto global
-import api from '../../Services/api';  // Cliente Axios
+import { WorkoutContext } from '../../context/WorkoutContext';
+import {
+  getWorkouts,
+  createWorkout,
+  deleteWorkout,
+  updateWorkout,
+} from '../../Services/api';
 
 function WorkoutSession() {
-  const { workouts, setWorkouts } = useContext(WorkoutContext);  // Estado global para los entrenamientos
+  const { workouts, setWorkouts } = useContext(WorkoutContext);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [reps, setReps] = useState('');
   const [sets, setSets] = useState('');
@@ -13,11 +18,10 @@ function WorkoutSession() {
   const [message, setMessage] = useState('');
   const [editingWorkout, setEditingWorkout] = useState(null);
 
-  // Cargar los entrenamientos desde el backend
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
-        const response = await api.get('/workouts');
+        const response = await getWorkouts();
         setWorkouts(response.data);
       } catch (error) {
         console.error('Error al cargar entrenamientos:', error);
@@ -26,7 +30,6 @@ function WorkoutSession() {
     fetchWorkouts();
   }, [setWorkouts]);
 
-  // Función para añadir o actualizar un entrenamiento
   const handleAddOrUpdateWorkout = async () => {
     if (!selectedExercise) return alert('Por favor selecciona un ejercicio');
 
@@ -40,16 +43,20 @@ function WorkoutSession() {
 
     try {
       if (editingWorkout) {
-        await api.put(`/workouts/${editingWorkout.id}`, workoutData);
+        await updateWorkout(editingWorkout.id, workoutData);
         setMessage('Entrenamiento actualizado exitosamente.');
-        setWorkouts(workouts.map(w => (w.id === editingWorkout.id ? { ...w, ...workoutData } : w)));
+        setWorkouts((prevWorkouts) =>
+          prevWorkouts.map((w) =>
+            w.id === editingWorkout.id ? { ...w, ...workoutData } : w
+          )
+        );
         setEditingWorkout(null);
       } else {
-        const response = await api.post('/workouts', workoutData);
+        const response = await createWorkout(workoutData);
         setMessage('Entrenamiento registrado exitosamente.');
-        setWorkouts([...workouts, response.data]);
+        setWorkouts((prevWorkouts) => [...prevWorkouts, response.data]);
       }
-      
+
       setSelectedExercise(null);
       setReps('');
       setSets('');
@@ -61,12 +68,11 @@ function WorkoutSession() {
     }
   };
 
-  // Función para eliminar un entrenamiento
   const handleDeleteWorkout = async (id) => {
     try {
-      await api.delete(`/workouts/${id}`);
+      await deleteWorkout(id);
       setMessage('Entrenamiento eliminado exitosamente.');
-      setWorkouts(workouts.filter(workout => workout.id !== id));
+      setWorkouts((prevWorkouts) => prevWorkouts.filter((w) => w.id !== id));
     } catch (error) {
       setMessage('Error al eliminar el entrenamiento.');
       console.error('Error:', error);
@@ -143,12 +149,14 @@ function WorkoutSession() {
         <ul>
           {workouts.map((workout, index) => (
             <li key={index}>
-              {workout.exercise.name} - 
-              {workout.exercise.type === 'fuerza' 
+              {workout.exercise.name} -{' '}
+              {workout.exercise.type === 'fuerza'
                 ? `${workout.weight} kg, ${workout.reps} repeticiones, ${workout.sets} series`
                 : `${workout.duration} minutos`}
               <button onClick={() => handleEditWorkout(workout)}>Editar</button>
-              <button onClick={() => handleDeleteWorkout(workout.id)}>Eliminar</button>
+              <button onClick={() => handleDeleteWorkout(workout.id)}>
+                Eliminar
+              </button>
             </li>
           ))}
         </ul>

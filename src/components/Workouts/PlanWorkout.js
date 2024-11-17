@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { WorkoutContext } from '../../context/WorkoutContext';
+import { toast } from 'react-toastify'; // Importación de toast
+import 'react-toastify/dist/ReactToastify.css'; // Importación de estilos CSS
 
 function PlanWorkout() {
   const { schedule, setSchedule, workouts } = useContext(WorkoutContext); // Acceso al estado global
@@ -9,10 +11,13 @@ function PlanWorkout() {
   console.log('Ejercicios disponibles:', workouts); // Depuración: Ver ejercicios
 
   // Función para guardar la rutina
-  const handleSaveSchedule = () => {
-    console.log('Rutina guardada:', schedule);
-    alert('¡Rutina guardada exitosamente!');
-    setMessage('¡Rutina guardada exitosamente!');
+  const handleSaveSchedule = async () => {
+    try {
+      console.log('Rutina guardada:', schedule);
+      toast.success('Rutina guardada exitosamente.'); // Notificación de éxito
+    } catch (error) {
+      toast.error('Error al guardar la rutina.'); // Notificación de error
+    }
   };
 
   // Función para agregar un ejercicio a un día específico

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// URL base del backend (ajusta esta URL si es necesario)
+// URL base del backend
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1', // Cambia al puerto correcto de tu backend
+  baseURL: 'http://localhost:8080/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,17 +18,32 @@ api.interceptors.request.use((config) => {
 });
 
 // Función para obtener los ejercicios desde el backend
-export const getExercises = () => {
-  return api.get('/Exercises');
+export const getExercises = async () => {
+  return api.get('/Exercises'); // Ruta ajustada al estándar
 };
 
 // Función para registrar un entrenamiento en el backend
-export const createWorkout = (workoutData) => {
+export const createWorkout = async (workoutData) => {
   return api.post('/Workouts', workoutData);
 };
 
+// Función para obtener los entrenamientos registrados
+export const getWorkouts = async () => {
+  return api.get('/Workouts');
+};
+
+// Función para eliminar un entrenamiento
+export const deleteWorkout = async (id) => {
+  return api.delete(`/Workouts/${id}`);
+};
+
+// Función para actualizar un entrenamiento
+export const updateWorkout = async (id, workoutData) => {
+  return api.put(`/Workouts/${id}`, workoutData);
+};
+
 // Función para obtener el progreso del usuario
-export const getUserProgress = () => {
+export const getUserProgress = async () => {
   return api.get('/Workouts/Progress');
 };
 

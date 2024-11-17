@@ -1,39 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../Services/api'; // Ajusta la ruta según tu estructura
+import { getUserProgress } from '../../Services/api';
 
 function ProgressStats() {
-  const [stats, setStats] = useState(null);
+  const [progress, setProgress] = useState([]);
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchProgress = async () => {
       try {
-        const response = await api.get('/progress/stats'); // Endpoint del backend
-        setStats(response.data);
+        const response = await getUserProgress();
+        setProgress(response.data);
       } catch (error) {
-        console.error('Error al obtener estadísticas de progreso:', error);
-        // Usa valores predeterminados en caso de error
-        setStats({
-          totalWeight: 450,
-          totalDuration: 120,
-          averageReps: 12,
-        });
+        console.error('Error al obtener el progreso del usuario:', error);
       }
     };
 
-    fetchStats();
+    fetchProgress();
   }, []);
-
-  if (!stats) {
-    return <p>Cargando estadísticas...</p>;
-  }
 
   return (
     <div>
       <h2>Estadísticas de Progreso</h2>
       <ul>
-        <li>Peso Total Levantado: {stats.totalWeight} kg</li>
-        <li>Duración Total del Entrenamiento: {stats.totalDuration} minutos</li>
-        <li>Promedio de Repeticiones: {stats.averageReps}</li>
+        {progress.map((entry, index) => (
+          <li key={index}>
+            Fecha: {entry.date}, Peso Levantado: {entry.weightLifted}, Reps: {entry.reps}
+          </li>
+        ))}
       </ul>
     </div>
   );

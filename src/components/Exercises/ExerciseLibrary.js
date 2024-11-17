@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../../Services/api';
 
 function ExerciseLibrary({ onSelectExercise }) {
-  // Lista de ejercicios predefinidos
-  const exercises = [
-    { id: 1, name: 'Sentadillas', type: 'fuerza' },
-    { id: 2, name: 'Press de banca', type: 'fuerza' },
-    { id: 3, name: 'Correr', type: 'cardio' },
-    { id: 4, name: 'Flexiones', type: 'fuerza' },
-    { id: 5, name: 'Bicicleta', type: 'cardio' }
-  ];
+  const [exercises, setExercises] = useState([]);
+
+  useEffect(() => {
+    const fetchExercises = async () => {
+      try {
+        const response = await api.get('/exercises'); // Cambia '/exercises' al endpoint real
+        setExercises(response.data);
+      } catch (error) {
+        console.error('Error al cargar los ejercicios:', error);
+      }
+    };
+
+    fetchExercises();
+  }, []);
 
   return (
     <div>

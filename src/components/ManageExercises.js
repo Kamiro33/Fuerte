@@ -1,78 +1,51 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { WorkoutContext } from '../context/WorkoutContext';
+import { toast } from 'react-toastify';
+import { getExercises, createWorkout } from '../Services/api';
+import ExerciseList from './Exercises/ExerciseList';
+import ExerciseForm from './Exercises/ExerciseForm';
 
 function ManageExercises() {
-  const { workouts, setWorkouts } = useContext(WorkoutContext); // Acceso al estado global de ejercicios
-  const [exerciseName, setExerciseName] = useState(''); // Nombre del ejercicio
-  const [exerciseType, setExerciseType] = useState('fuerza'); // Tipo de ejercicio ('fuerza' o 'cardio')
-  const [message, setMessage] = useState(''); // Mensajes para el usuario
+  const { workouts, setWorkouts } = useContext(WorkoutContext);
 
-  // Función para agregar un nuevo ejercicio
-  const handleAddExercise = () => {
-    if (!exerciseName) {
-      alert('Por favor, ingresa un nombre para el ejercicio.');
-      return;
+  useEffect(() => {
+    const fetchExercises = async () => {
+      try {
+        const response = await getExercises();
+        setWorkouts(response.data); // Asume que el backend retorna un array
+      } catch (error) {
+        toast.error('Error al cargar los ejercicios.');
+        console.error(error);
+      }
+    };
+
+    fetchExercises();
+  }, [setWorkouts]);
+
+  const handleAddExercise = async (exercise) => {
+    console.log('Ejercicio recibido para agregar:', exercise);
+    try {
+      const response = await createWorkout(exercise);
+      console.log('Respuesta del backend:', response.data);
+      setWorkouts([...workouts, response.data]); // Agregar al estado local
+      toast.success('Ejercicio agregado exitosamente.');
+    } catch (error) {
+      toast.error('Error al agregar el ejercicio.');
+      console.error(error);
     }
-
-    const newExercise = { id: Math.random(), name: exerciseName, type: exerciseType }; // Generar un ID temporal
-    setWorkouts([...workouts, newExercise]); // Actualizar la lista de ejercicios globalmente
-    setExerciseName(''); // Limpia el formulario
-    setExerciseType('fuerza');
-    setMessage('Ejercicio registrado exitosamente.');
   };
 
-  // Función para eliminar un ejercicio
   const handleDeleteExercise = (id) => {
-    setWorkouts(workouts.filter((workout) => workout.id !== id)); // Filtrar ejercicios por ID
-    setMessage('Ejercicio eliminado exitosamente.');
+    const updatedWorkouts = workouts.filter((workout) => workout.id !== id);
+    setWorkouts(updatedWorkouts);
+    toast.info('Ejercicio eliminado.');
   };
 
   return (
     <div>
       <h2>Gestión de Ejercicios</h2>
-
-      {/* Formulario para agregar ejercicios */}
-      <label>Nombre del Ejercicio:</label>
-      <input
-        type="text"
-        value={exerciseName}
-        onChange={(e) => setExerciseName(e.target.value)}
-      />
-      <label>Tipo de Ejercicio:</label>
-      <select
-        value={exerciseType}
-        onChange={(e) => setExerciseType(e.target.value)}
-      >
-        <option value="fuerza">Fuerza</option>
-        <option value="cardio">Cardio</option>
-      </select>
-      <button onClick={handleAddExercise}>Agregar Ejercicio</button>
-
-      {/* Lista de ejercicios */}
-      <h3>Lista de Ejercicios</h3>
-      <ul>
-        {workouts.map((workout) => (
-          <li key={workout.id}>
-            {workout.name} ({workout.type})
-            <button
-              style={{
-                marginLeft: '10px',
-                backgroundColor: 'red',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-              }}
-              onClick={() => handleDeleteExercise(workout.id)}
-            >
-              Eliminar
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      {/* Mensajes de éxito o error */}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+      <ExerciseForm onSave={handleAddExercise} />
+      <ExerciseList workouts={workouts} onDelete={handleDeleteExercise} />
     </div>
   );
 }

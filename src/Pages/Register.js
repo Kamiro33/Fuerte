@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../Services/api'; // Asume que tienes configurado Axios
+import api from '../Services/api';
 
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      // Simulamos el registro de usuario (esto cambiará cuando el backend esté listo)
       await api.post('/signup', { name, email, password });
-      navigate('/'); // Redirigir al Login después del registro
+      navigate('/'); // Redirige al login
     } catch (err) {
-      setError('Error al registrarse. Inténtalo nuevamente.');
+      setError(err.response?.data?.message || 'Error al registrarse.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,11 +56,10 @@ function Register() {
           />
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">Registrarse</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Registrando...' : 'Registrarse'}
+        </button>
       </form>
-
-      {/* Enlace al login */}
-      <p>¿Ya tienes cuenta? <a href="/">Inicia Sesión</a></p>
     </div>
   );
 }
