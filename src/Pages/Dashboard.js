@@ -7,18 +7,11 @@ import PlanWorkout from '../components/Workouts/PlanWorkout';
 import ProgressChart from '../components/Progress/ProgressChart';
 import ProgressStats from '../components/Progress/ProgressStats';
 import api from '../Services/api';
-<<<<<<< HEAD
 import styles from '../styles/dashboard.module.css';
 
 function Dashboard() {
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
-=======
-
-function Dashboard() {
-  const navigate = useNavigate();
-  const [roles, setRoles] = useState([]);                     
->>>>>>> c2e85787b88fe35d36970004ce8fc0fd83413caf
   const [progressData, setProgressData] = useState([]);
 
   useEffect(() => {
@@ -55,7 +48,6 @@ function Dashboard() {
   };
 
   return (
-<<<<<<< HEAD
     <div className={styles.dashboardContainer}>
       {/* Renderiza un header dependiendo del rol */}
       {roles.includes('ROLE_COACH') && <TrainerHeader />}
@@ -67,41 +59,25 @@ function Dashboard() {
         <div className={styles.dashboardPanel}>
           <h2 className={styles.dashboardSectionTitle}>Panel de Entrenador</h2>
           <p className={styles.dashboardParagraph}>Puedes ver y gestionar el progreso de tus usuarios.</p>
-=======
-    <div>
-      <h1>Bienvenido al Dashboard</h1>
-      {roles.includes('ROLE_COACH') && (
-        <div>
-          <h2>Panel de Entrenador</h2>
-          <p>Puedes ver y gestionar el progreso de tus usuarios.</p>
->>>>>>> c2e85787b88fe35d36970004ce8fc0fd83413caf
           <PlanWorkout />
         </div>
       )}
+
       {roles.includes('ROLE_USER') && (
-<<<<<<< HEAD
         <div className={styles.dashboardPanel}>
           <h2 className={styles.dashboardSectionTitle}>Panel de Usuario</h2>
           <p className={styles.dashboardParagraph}>Puedes ver tu propio progreso y gestionar tus entrenamientos.</p>
-=======
-        <div>
-          <h2>Panel de Usuario</h2>
-          <p>Puedes ver tu propio progreso y gestionar tus entrenamientos.</p>
->>>>>>> c2e85787b88fe35d36970004ce8fc0fd83413caf
           <ManageExercises />
           <ProgressChart data={progressData} />
           <ProgressStats />
         </div>
       )}
+
       {!roles.length && (
         <p>No tienes roles asignados. Por favor, verifica tu cuenta.</p>
       )}
-<<<<<<< HEAD
 
       <button className={styles.dashboardButton} onClick={handleLogout}>Cerrar Sesión</button>
-=======
-      <button onClick={handleLogout}>Cerrar Sesión</button>
->>>>>>> c2e85787b88fe35d36970004ce8fc0fd83413caf
     </div>
   );
 }
