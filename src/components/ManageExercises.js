@@ -1,89 +1,21 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { WorkoutContext } from '../context/WorkoutContext';
-<<<<<<< HEAD
-import styles from '../styles/manageexercise.module.css'; // Importamos el CSS module
-
-function ManageExercises() {
-  const { workouts, setWorkouts } = useContext(WorkoutContext);
-  const [exerciseName, setExerciseName] = useState('');
-  const [exerciseType, setExerciseType] = useState('fuerza');
-  const [message, setMessage] = useState('');
-
-  const handleAddExercise = () => {
-    if (!exerciseName) {
-      alert('Por favor, ingresa un nombre para el ejercicio.');
-      return;
-    }
-
-    const newExercise = { id: Math.random(), name: exerciseName, type: exerciseType };
-    setWorkouts([...workouts, newExercise]);
-    setExerciseName('');
-    setExerciseType('fuerza');
-    setMessage('Ejercicio registrado exitosamente.');
-  };
-
-  const handleDeleteExercise = (id) => {
-    setWorkouts(workouts.filter((workout) => workout.id !== id));
-    setMessage('Ejercicio eliminado exitosamente.');
-  };
-
-  return (
-    <div className={styles['manage-exercises']}>
-      <h2 className={styles.title}>Gestión de Ejercicios</h2>
-      <label>Nombre del Ejercicio:</label>
-      <input
-        type="text"
-        className={styles.inputField}
-        value={exerciseName}
-        onChange={(e) => setExerciseName(e.target.value)}
-      />
-      <label>Tipo de Ejercicio:</label>
-      <select
-        className={styles.inputField}
-        value={exerciseType}
-        onChange={(e) => setExerciseType(e.target.value)}
-      >
-        <option value="fuerza">Fuerza</option>
-        <option value="cardio">Cardio</option>
-      </select>
-      <button
-        className={styles.button}
-        onClick={handleAddExercise}
-        id="add-exercise-button"
-      >
-        Agregar Ejercicio
-      </button>
-      <h3>Lista de Ejercicios</h3>
-      <ul>
-        {workouts.map((workout) => (
-          <li key={workout.id} className={styles['exercise-item']}>
-            <span className={styles['exercise-name']}>
-              {workout.name} ({workout.type})
-            </span>
-            <button
-              className={styles.button}
-              onClick={() => handleDeleteExercise(workout.id)}
-            >
-              Eliminar
-            </button>
-          </li>
-        ))}
-      </ul>
-      {message && <p className={styles.message}>{message}</p>}
-=======
 import { toast } from 'react-toastify';
 import { getExercises, createWorkout } from '../Services/api';
 import ExerciseList from './Exercises/ExerciseList';
 import ExerciseForm from './Exercises/ExerciseForm';
+import 'react-toastify/dist/ReactToastify.css'; // Asegúrate de importar los estilos CSS
 
 function ManageExercises() {
-  const { workouts, setWorkouts } = useContext(WorkoutContext);
+  const { workouts, setWorkouts } = useContext(WorkoutContext); // Obtener el estado y setter del contexto
+  const [message, setMessage] = useState(''); // Mensajes de éxito o error
 
+  // Cargar los ejercicios al montar el componente
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const response = await getExercises();
-        setWorkouts(response.data); // Asume que el backend retorna un array
+        const response = await getExercises(); // Obtener ejercicios desde la API
+        setWorkouts(response.data); // Asignar los ejercicios al estado global
       } catch (error) {
         toast.error('Error al cargar los ejercicios.');
         console.error(error);
@@ -93,12 +25,12 @@ function ManageExercises() {
     fetchExercises();
   }, [setWorkouts]);
 
+  // Manejo de agregar un ejercicio
   const handleAddExercise = async (exercise) => {
     console.log('Ejercicio recibido para agregar:', exercise);
     try {
-      const response = await createWorkout(exercise);
-      console.log('Respuesta del backend:', response.data);
-      setWorkouts([...workouts, response.data]); // Agregar al estado local
+      const response = await createWorkout(exercise); // Enviar el nuevo ejercicio a la API
+      setWorkouts([...workouts, response.data]); // Actualizar el estado local con el nuevo ejercicio
       toast.success('Ejercicio agregado exitosamente.');
     } catch (error) {
       toast.error('Error al agregar el ejercicio.');
@@ -106,18 +38,18 @@ function ManageExercises() {
     }
   };
 
+  // Manejo de eliminar un ejercicio
   const handleDeleteExercise = (id) => {
-    const updatedWorkouts = workouts.filter((workout) => workout.id !== id);
-    setWorkouts(updatedWorkouts);
+    const updatedWorkouts = workouts.filter((workout) => workout.id !== id); // Filtrar el ejercicio eliminado
+    setWorkouts(updatedWorkouts); // Actualizar el estado local
     toast.info('Ejercicio eliminado.');
   };
 
   return (
     <div>
       <h2>Gestión de Ejercicios</h2>
-      <ExerciseForm onSave={handleAddExercise} />
-      <ExerciseList workouts={workouts} onDelete={handleDeleteExercise} />
->>>>>>> c2e85787b88fe35d36970004ce8fc0fd83413caf
+      <ExerciseForm onSave={handleAddExercise} /> {/* Formulario para agregar ejercicios */}
+      <ExerciseList workouts={workouts} onDelete={handleDeleteExercise} /> {/* Lista de ejercicios */}
     </div>
   );
 }
