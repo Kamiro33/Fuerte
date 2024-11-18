@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../Services/api'; // Ajusta la ruta según tu estructura
+import styles from '../../styles/progressstats.module.css'; // Importamos el CSS module
 
 function ProgressStats() {
   const [stats, setStats] = useState(null);
@@ -11,7 +12,6 @@ function ProgressStats() {
         setStats(response.data);
       } catch (error) {
         console.error('Error al obtener estadísticas de progreso:', error);
-        // Usa valores predeterminados en caso de error
         setStats({
           totalWeight: 450,
           totalDuration: 120,
@@ -24,16 +24,16 @@ function ProgressStats() {
   }, []);
 
   if (!stats) {
-    return <p>Cargando estadísticas...</p>;
+    return <p className={styles.loadingText}>Cargando estadísticas...</p>;  // Usamos el CSS module aquí
   }
 
   return (
-    <div>
+    <div className={styles.statsContainer}>  {/* Usamos el CSS module aquí */}
       <h2>Estadísticas de Progreso</h2>
-      <ul>
-        <li>Peso Total Levantado: {stats.totalWeight} kg</li>
-        <li>Duración Total del Entrenamiento: {stats.totalDuration} minutos</li>
-        <li>Promedio de Repeticiones: {stats.averageReps}</li>
+      <ul className={styles.statsList}>
+        <li className={styles.statItem}>Peso Total Levantado: {stats.totalWeight} kg</li>
+        <li className={styles.statItem}>Duración Total del Entrenamiento: {stats.totalDuration} minutos</li>
+        <li className={styles.statItem}>Promedio de Repeticiones: {stats.averageReps}</li>
       </ul>
     </div>
   );

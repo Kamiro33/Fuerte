@@ -1,0 +1,16 @@
+.statsContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.statsList {
+  list-style-type: none;
+}
+
+.statItem {
+  margin: 5px 0;
+}
+
+.loadingText {
+  color: grey;
+}

@@ -1,0 +1,114 @@
+/* Estilos específicos para el componente PlanWorkout */
+.planWorkoutContainer {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .planWorkoutTitle {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #007bff; /* Color azul */
+    font-weight: bold;
+  }
+  
+  .planWorkoutSubtitle {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #495057;
+  }
+  
+  .selectExercise {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    color: #495057;
+  }
+  
+  .selectExercise:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #f8f9fa;
+  }
+  
+  .addExerciseButtons {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 50px;
+    justify-content: center;
+  }
+  
+  .addExerciseButtons button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 120px;
+    margin: 5px;
+  }
+  
+  .addExerciseButtons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .scheduleContainer {
+    margin-top: 20px;
+  }
+  
+  .scheduleContainer h4 {
+    font-size: 1.3rem;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .scheduleContainer ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .scheduleContainer li {
+    font-size: 1rem;
+    color: #495057;
+  }
+  
+  .saveButton {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
+  .saveButton:hover {
+    background-color: #218838;
+  }
+  
+  .message {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #28a745;
+  }
+  
+  .messageError {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #dc3545;
+  }
+  

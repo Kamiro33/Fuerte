@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { WorkoutContext } from '../../context/WorkoutContext';
+import styles from '../../styles/planworkout.module.css'; // Asegúrate de importar los estilos
 
 function PlanWorkout() {
   const { schedule, setSchedule, workouts } = useContext(WorkoutContext); // Acceso al estado global
@@ -38,16 +39,17 @@ function PlanWorkout() {
   };
 
   return (
-    <div>
-      <h2>Planificación de Rutinas</h2>
+    <div className={styles.planWorkoutContainer}>
+      <h2 className={styles.planWorkoutTitle}>Planificación de Rutinas</h2>
 
-      <h3>Seleccionar Ejercicio para Planificar</h3>
+      <h3 className={styles.planWorkoutSubtitle}>Seleccionar Ejercicio para Planificar</h3>
       <select
         value={selectedExercise?.id || ''}
         onChange={(e) => {
           const exercise = workouts.find((w) => w.id === parseInt(e.target.value));
           setSelectedExercise(exercise);
         }}
+        className={styles.selectExercise}
       >
         <option value="">--Seleccionar--</option>
         {workouts.map((exercise) => (
@@ -57,7 +59,7 @@ function PlanWorkout() {
         ))}
       </select>
 
-      <div>
+      <div className={styles.addExerciseButtons}>
         {['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].map((day) => (
           <button key={day} onClick={() => handleAddExerciseToDay(day)}>
             Añadir a {day.charAt(0).toUpperCase() + day.slice(1)}
@@ -65,20 +67,23 @@ function PlanWorkout() {
         ))}
       </div>
 
-      <h3>Rutina Semanal</h3>
-      {Object.keys(schedule).map((day) => (
-        <div key={day}>
-          <h4>{day.charAt(0).toUpperCase() + day.slice(1)}</h4>
-          <ul>
-            {schedule[day].map((exercise, index) => (
-              <li key={index}>{exercise.name} ({exercise.type})</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <h3 className={styles.planWorkoutSubtitle}>Rutina Semanal</h3>
+      <div className={styles.scheduleContainer}>
+        {Object.keys(schedule).map((day) => (
+          <div key={day}>
+            <h4>{day.charAt(0).toUpperCase() + day.slice(1)}</h4>
+            <ul>
+              {schedule[day].map((exercise, index) => (
+                <li key={index}>{exercise.name} ({exercise.type})</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
-      <button onClick={handleSaveSchedule}>Guardar Rutina</button>
-      {message && <p>{message}</p>}
+      <button className={styles.saveButton} onClick={handleSaveSchedule}>Guardar Rutina</button>
+
+      {message && <p className={message.includes('error') ? styles.messageError : styles.message}>{message}</p>}
     </div>
   );
 }

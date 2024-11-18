@@ -1,68 +1,66 @@
 import React, { useContext, useState } from 'react';
 import { WorkoutContext } from '../context/WorkoutContext';
+import styles from '../styles/manageexercise.module.css'; // Importamos el CSS module
 
 function ManageExercises() {
-  const { workouts, setWorkouts } = useContext(WorkoutContext); // Acceso al estado global de ejercicios
-  const [exerciseName, setExerciseName] = useState(''); // Nombre del ejercicio
-  const [exerciseType, setExerciseType] = useState('fuerza'); // Tipo de ejercicio ('fuerza' o 'cardio')
-  const [message, setMessage] = useState(''); // Mensajes para el usuario
+  const { workouts, setWorkouts } = useContext(WorkoutContext);
+  const [exerciseName, setExerciseName] = useState('');
+  const [exerciseType, setExerciseType] = useState('fuerza');
+  const [message, setMessage] = useState('');
 
-  // Función para agregar un nuevo ejercicio
   const handleAddExercise = () => {
     if (!exerciseName) {
       alert('Por favor, ingresa un nombre para el ejercicio.');
       return;
     }
 
-    const newExercise = { id: Math.random(), name: exerciseName, type: exerciseType }; // Generar un ID temporal
-    setWorkouts([...workouts, newExercise]); // Actualizar la lista de ejercicios globalmente
-    setExerciseName(''); // Limpia el formulario
+    const newExercise = { id: Math.random(), name: exerciseName, type: exerciseType };
+    setWorkouts([...workouts, newExercise]);
+    setExerciseName('');
     setExerciseType('fuerza');
     setMessage('Ejercicio registrado exitosamente.');
   };
 
-  // Función para eliminar un ejercicio
   const handleDeleteExercise = (id) => {
-    setWorkouts(workouts.filter((workout) => workout.id !== id)); // Filtrar ejercicios por ID
+    setWorkouts(workouts.filter((workout) => workout.id !== id));
     setMessage('Ejercicio eliminado exitosamente.');
   };
 
   return (
-    <div>
-      <h2>Gestión de Ejercicios</h2>
-
-      {/* Formulario para agregar ejercicios */}
+    <div className={styles['manage-exercises']}>
+      <h2 className={styles.title}>Gestión de Ejercicios</h2>
       <label>Nombre del Ejercicio:</label>
       <input
         type="text"
+        className={styles.inputField}
         value={exerciseName}
         onChange={(e) => setExerciseName(e.target.value)}
       />
       <label>Tipo de Ejercicio:</label>
       <select
+        className={styles.inputField}
         value={exerciseType}
         onChange={(e) => setExerciseType(e.target.value)}
       >
         <option value="fuerza">Fuerza</option>
         <option value="cardio">Cardio</option>
       </select>
-      <button onClick={handleAddExercise}>Agregar Ejercicio</button>
-
-      {/* Lista de ejercicios */}
+      <button
+        className={styles.button}
+        onClick={handleAddExercise}
+        id="add-exercise-button"
+      >
+        Agregar Ejercicio
+      </button>
       <h3>Lista de Ejercicios</h3>
       <ul>
         {workouts.map((workout) => (
-          <li key={workout.id}>
-            {workout.name} ({workout.type})
+          <li key={workout.id} className={styles['exercise-item']}>
+            <span className={styles['exercise-name']}>
+              {workout.name} ({workout.type})
+            </span>
             <button
-              style={{
-                marginLeft: '10px',
-                backgroundColor: 'red',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-              }}
+              className={styles.button}
               onClick={() => handleDeleteExercise(workout.id)}
             >
               Eliminar
@@ -70,9 +68,7 @@ function ManageExercises() {
           </li>
         ))}
       </ul>
-
-      {/* Mensajes de éxito o error */}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+      {message && <p className={styles.message}>{message}</p>}
     </div>
   );
 }

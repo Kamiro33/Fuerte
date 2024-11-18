@@ -1,0 +1,69 @@
+/* Estilos específicos para el Login */
+.loginContainer {
+  font-family: 'Arial', sans-serif;
+  background-color: #e9ecef; /* Fondo grisáceo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.loginForm {
+  background-color: #ffffff; /* Fondo blanco para el contenedor */
+  padding: 40px; /* Aumentar el padding para más espacio */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center; /* Centrar el contenido */
+}
+
+.loginTitle {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.loginLabel {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  text-align: left; /* Alinear etiquetas a la izquierda */
+}
+
+.loginInput {
+  width: 100%;
+  padding: 12px; /* Aumentar el padding para mayor comodidad */
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px; /* Bordes redondeados */
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.loginInput:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 12px; /* Aumentar el padding para mayor comodidad */
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px; /* Bordes redondeados */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.loginButton:hover {
+  background-color: #0056b3;
+}
+
+.errorMessage {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center; /* Centrar el mensaje de error */
+}

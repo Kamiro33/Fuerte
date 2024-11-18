@@ -1,0 +1,82 @@
+/* Estilos específicos para el Register */
+.registerContainer {
+  font-family: 'Arial', sans-serif;
+  background-color: #e9ecef; /* Fondo grisáceo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.registerForm {
+  background-color: #ffffff; /* Fondo blanco para el contenedor */
+  padding: 40px; /* Espacio alrededor del contenido */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center; /* Centrar el contenido */
+}
+
+.registerTitle {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.registerLabel {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  text-align: left; /* Alinear etiquetas a la izquierda */
+}
+
+.registerInput {
+  width: 100%;
+  padding: 12px; /* Aumentar el padding para mayor comodidad */
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px; /* Bordes redondeados */
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.registerInput:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.registerButton {
+  width: 100%;
+  padding: 12px; /* Aumentar el padding para mayor comodidad */
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px; /* Bordes redondeados */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.registerButton:hover {
+  background-color: #0056b3;
+}
+
+.errorMessage {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center; /* Centrar el mensaje de error */
+}
+
+.registerLink {
+  margin-top: 15px;
+}
+
+.registerLink a {
+  color: #007bff;
+  text-decoration: none; /* Sin subrayado */
+}
+
+.registerLink a:hover {
+  text-decoration: underline; /* Subrayar al pasar el mouse */
+}

@@ -1,0 +1,50 @@
+.manage-exercises {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.title {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.inputField {
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-left: 10px; /* Espaciado entre botones */
+}
+
+.button:hover {
+  background-color: #218838;
+}
+
+.message {
+  color: green;
+  font-size: 14px;
+}
+
+#add-exercise-button {
+  margin-top: 15px; /* Separación del selector */
+}
+
+.exercise-item {
+  display: flex; /* Usamos flex para alinear el texto y el botón */
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0; /* Espaciado entre elementos */
+}
+
+.exercise-name {
+  flex-grow: 1; /* Asegura que el texto ocupe el espacio disponible */
+}
