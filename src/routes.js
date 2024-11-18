@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Dashboard from './Pages/Dashboard';
@@ -7,18 +8,20 @@ import PlanWorkout from './components/Workouts/PlanWorkout';
 import UserProgress from './Pages/UserProgress';
 import PrivateRoute from './components/PrivateRoute';
 import ProgressChart from './components/Progress/ProgressChart';
-import ProgressStats from './components/Progress/ProgressStats'; // Importamos ProgressStats
+import ProgressStats from './components/Progress/ProgressStats';
+import CoachDashboard from './components/Coach/CoachDashboard';
+import TrainingPlans from './Pages/TrainingPlans';
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
-        {/* Rutas públicas */}
-        <Route path="/" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        {/* Página de inicio */}
+        <Route path="/" element={<Home />} />
 
-        {/* Ruta para probar ProgressChart (opcional, puede eliminarse) */}
-        <Route path="/ProgressChart" element={<ProgressChart />} />
+        {/* Rutas públicas */}
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
 
         {/* Ruta protegida por PrivateRoute */}
         <Route
@@ -26,6 +29,14 @@ function AppRoutes() {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/CoachDashboard"
+          element={
+            <PrivateRoute requiredRole="ROLE_COACH">
+              <CoachDashboard />
             </PrivateRoute>
           }
         />
@@ -39,7 +50,6 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
-
         <Route
           path="/PlanWorkout"
           element={
@@ -48,7 +58,6 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
-
         <Route
           path="/Progress"
           element={
@@ -57,13 +66,29 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
-
-        {/* Ruta para ProgressStats */}
+        <Route
+          path="/ProgressChart"
+          element={
+            <PrivateRoute>
+              <ProgressChart />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/ProgressStats"
           element={
             <PrivateRoute>
               <ProgressStats />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Ruta de TrainingPlans */}
+        <Route
+          path="/TrainingPlans"
+          element={
+            <PrivateRoute>
+              <TrainingPlans />
             </PrivateRoute>
           }
         />
