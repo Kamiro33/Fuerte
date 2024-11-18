@@ -1,11 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { WorkoutContext } from '../../context/WorkoutContext';
-<<<<<<< HEAD
-import styles from '../../styles/planworkout.module.css'; // Asegúrate de importar los estilos
-=======
 import { toast } from 'react-toastify'; // Importación de toast
 import 'react-toastify/dist/ReactToastify.css'; // Importación de estilos CSS
->>>>>>> c2e85787b88fe35d36970004ce8fc0fd83413caf
+import styles from '../../styles/planworkout.module.css'; // Asegúrate de importar los estilos
 
 function PlanWorkout() {
   const { schedule, setSchedule, workouts } = useContext(WorkoutContext); // Acceso al estado global
@@ -97,3 +94,4 @@ function PlanWorkout() {
 }
 
 export default PlanWorkout;
+
