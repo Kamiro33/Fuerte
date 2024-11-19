@@ -15,7 +15,7 @@ function Login() {
     setLoading(true); // Activa el estado de carga
 
     try {
-      const response = await api.post('/login', { email, password });
+      const response = await api.post('https://planiworkout-bwafb0h8gcezb2af.canadacentral-01.azurewebsites.net/api/auth/signin', { email, password });
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('roles', JSON.stringify(response.data.roles));
       navigate('/dashboard');

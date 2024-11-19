@@ -16,7 +16,7 @@ function Register() {
     setLoading(true);
 
     try {
-      await api.post('/signup', { name, email, password });
+      await api.post('https://planiworkout-bwafb0h8gcezb2af.canadacentral-01.azurewebsites.net/api/auth/signup', { name, email, password });
       navigate('/'); // Redirige al login
     } catch (err) {
       setError(err.response?.data?.message || 'Error al registrarse.');

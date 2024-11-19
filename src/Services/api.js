@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // URL base del backend
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
+  baseURL: 'https://planiworkout-bwafb0h8gcezb2af.canadacentral-01.azurewebsites.net/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
